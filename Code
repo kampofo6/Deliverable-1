@@ -1,0 +1,125 @@
+
+package cardgameweek4;
+import java.util.Scanner;
+import java.util.Random;
+/**
+ * A class to handle the user interaction for the Card project. Contains a main method that generates a card hand and
+ * then iterates over it to print its contents to the console.
+ *
+ * @author dancye, 2019
+ * @modified Paul Bonenfant Feb 2022
+ */
+public class GamePlayer {
+
+   public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Random random = new Random();
+        int numValues = Card.Value.values().length;
+        int numSuits = Card.Suit.values().length;
+        int playerScore = 0;
+        int dealerScore = 0;
+        int playerWins = 0;
+        int dealerWins = 0;
+        int draws = 0;
+        int numGames = 0;
+        boolean playAgain = true;
+
+        while (playAgain) {
+            numGames++;
+            System.out.println("=== GAME " + numGames + " ===");
+
+            // generate player and dealer hands
+            Card[] playerHand = generateHand(2, random, numValues, numSuits);
+            Card[] dealerHand = generateHand(2, random, numValues, numSuits);
+
+            // show player's hand and one of dealer's cards
+            System.out.println("Your hand: ");
+            for (Card card : playerHand) {
+                System.out.println(card.toString());
+            }
+            System.out.println("Dealer's hand: ");
+            System.out.println(dealerHand[0].toString());
+            System.out.println("[hidden card]");
+
+            // player's turn
+            boolean playerBust = false;
+            while (true) {
+                System.out.print("Hit or stand? ");
+                String choice = sc.nextLine().toLowerCase();
+                if (choice.equals("hit")) {
+                    Card newCard = generateHand(1, random, numValues, numSuits)[0];
+                    System.out.println("You drew: " + newCard.toString());
+                    playerHand = addCardToHand(playerHand, newCard);
+                    System.out.println("New hand: ");
+                    for (Card card : playerHand) {
+                        System.out.println(card.toString());
+                    }
+                    playerScore = calculateScore(playerHand);
+                    if (playerScore > 21) {
+                        System.out.println("Busted! You lose.");
+                        playerBust = true;
+                        dealerWins++;
+                        break;
+                    }
+                } else if (choice.equals("stand")) {
+                    playerScore = calculateScore(playerHand);
+                    System.out.println("Your score: " + playerScore);
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please try again.");
+                }
+            }
+
+            // dealer's turn
+            boolean dealerBust = false;
+            if (!playerBust) {
+                System.out.println("Dealer's turn.");
+                System.out.println("Dealer's hand: ");
+                for (Card card : dealerHand) {
+                    System.out.println(card.toString());
+                }
+                while (calculateScore(dealerHand) < 17) {
+                    Card newCard = generateHand(1, random, numValues, numSuits)[0];
+                    System.out.println("Dealer drew: " + newCard.toString());
+                    dealerHand = addCardToHand(dealerHand, newCard);
+                    System.out.println("Dealer's new hand: ");
+                    for (Card card : dealerHand) {
+                        System.out.println(card.toString());
+                    }
+                    dealerScore = calculateScore(dealerHand);
+                    if (dealerScore > 21) {
+                        System.out.println("Dealer busts! You win.");
+                        dealerBust = true;
+                        playerWins++;
+                        break;
+                    }
+                }
+                if (!dealerBust) {
+                    dealerScore = calculateScore(dealerHand);
+                    System.out.println("Dealer's score: " + dealerScore);
+                    if (playerScore > dealerScore) {
+                        System.out.println("You win!");
+
+
+
+
+
+
+}
+                }
+            }
+        }
+   }
+
+    private static Card[] generateHand(int i, Random random, int numValues, int numSuits) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private static Card[] addCardToHand(Card[] playerHand, Card newCard) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private static int calculateScore(Card[] playerHand) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+}
